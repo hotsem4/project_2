@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/clock.css" />
+    <link rel="stylesheet" href="css/map.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://webfontworld.github.io/Cafe24SsurroundAir/Cafe24SsurroundAir.css"
+      rel="stylesheet"
+    />
+
+    <title>집 - MyHome</title>
+  </head>
+  <body>
+    <div id="upLine">
+      <i class="fa-brands fa-apple fa-lg" style="margin-left: 10px"></i>
+      <span class="upLineText" id="upLineName">파리에서 카페 찾기</span>
+      <span class="upLineText">파일</span>
+      <span class="upLineText">수정</span>
+      <span class="upLineText">보기</span>
+      <span class="upLineText">방문 기록</span>
+      <span class="upLineText">북마크</span>
+      <i class="fa-solid fa-battery-three-quarters fa-xl"></i>
+      <i class="fa-solid fa-volume-xmark"></i>
+      <i class="fa-solid fa-wifi"></i>
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <i class="fa-solid fa-sliders"></i>
+      <span id="date" class="upLineDate upLineText"></span>
+      <span id="time" class="upLineTime upLineText"></span>
+      <div id="weather">
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div id="windows">
+      <!--윗 검은 줄-->
+      <div id="status-bar">
+        <a href="/">
+          <div class="status_circle homeRedCircle" id="red_circle"></div>
+        </a>
+        <div class="status_circle" id="yellow_circle"></div>
+        <div class="status_circle" id="green_circle"></div>
+      </div>
+      <div id="mainPage">
+        <div id="controllerBox">
+          <div id="moveControllerBox">
+            <h3>1. 현재위치 기준 조회</h3>
+            <button class="button-3" id="location">현재위치 조회</button>
+            <div id="location_result"></div>
+            <h3>2. 여행지 기준 조회</h3>
+            <select id="select_value" onchange="changeValue()">
+              <option value="퐁뇌프">퐁뇌프</option>
+              <option value="콩시에르주리">콩시에르주리</option>
+              <option value="생트샤펠성당">생트샤펠성당</option>
+              <option value="노트르담대성당">노트르담 대성당</option>
+              <option value="생루이섬">생루이섬</option>
+              <option value="생폴생루이성당">생폴 생루이 성당</option>
+              <option value="보주광장">보주 광장</option>
+              <option value="ChevalBlancParis">Cheval Blanc Paris</option>
+              <option value="2일차">-----2일차-----</option>
+              <option value="루브르박물관">루브르박물관</option>
+              <option value="예술의다리">예술의다리</option>
+              <option value="생제르맹데프레수도원">
+                생제르맹데프레 수도원
+              </option>
+              <option value="생쉴피스성당">생쉴피스 성당</option>
+              <option value="뤽상부르공원">뤽상부르공원</option>
+              <option value="생미셀광장">생 미셀 광장</option>
+              <option value="3일차">-----3일차-----</option>
+              <option value="샤이요궁">샤이요궁</option>
+              <option value="에펠탑">에펠탑</option>
+              <option value="앵발리드">앵발리드</option>
+              <option value="알렉상드리3세다리">알렉상드리 3세 다리</option>
+              <option value="오페라가르니에">오페라 가르니에</option>
+              <option value="4일차">-----4일차-----</option>
+              <option value="페흐라세즈묘지">페흐라세즈 묘지</option>
+              <option value="사크레쾨르성당">사크레쾨르 성당</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="map" style="height: 600px"></div>
+        <div id="results"></div>
+      </div>
+    </div>
+    <script src="js/share.js"></script>
+    <script src="js/background1.js"></script>
+    <script src="js/clock.js"></script>
+    <script src="js/weather.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <script type="text/javascript">
+      let lat = 48.85834475969093;
+      let long = 2.294402091717345;
+
+      $(document).ready(function () {
+        $('#location').on('click', function () {
+          window.navigator.geolocation.getCurrentPosition(success, error); //()를 붙여 자동호출하는것 x
+        });
+      });
+      function success(position) {
+        $('#location_result').html(
+          '내 위치 위도 = ' +
+            position.coords.latitude +
+            '<br/>내 위치 경도 = ' +
+            position.coords.longitude
+        );
+        lat = position.coords.latitude;
+        long = position.coords.longitude;
+        initMap();
+      }
+      function error(err) {
+        $('div').text('조회 실패 ==>' + err.code);
+      }
+
+      function changeValue() {
+        let value_str = document.getElementById('select_value');
+        console.log(value_str.options[value_str.selectedIndex].value);
+        let value = value_str.options[value_str.selectedIndex].value;
+        switch (value) {
+          case '퐁뇌프':
+            lat = 48.85790699627767;
+            long = 2.3418766155216146;
+            initMap();
+            break;
+          case '콩시에르주리':
+            lat = 48.85599016635975;
+            long = 2.345452383440906;
+            initMap();
+            break;
+          case '생트샤펠성당':
+            lat = 48.8553678827843;
+            long = 2.344993086148447;
+            initMap();
+            break;
+          case '노트르담대성당':
+            lat = 48.85301060909767;
+            long = 2.349891645985115;
+            initMap();
+            break;
+          case '생루이섬':
+            lat = 48.851896693671414;
+            long = 2.3565271100178053;
+            initMap();
+            break;
+          case '생폴생루이성당':
+            lat = 48.85466733762286;
+            long = 2.361514247871972;
+            initMap();
+            break;
+          case '보주광장':
+            lat = 48.855611343851685;
+            long = 2.365472955656455;
+            initMap();
+            break;
+          case 'ChevalBlancParis':
+            lat = 48.85886842741237;
+            long = 2.3420425945888828;
+            initMap();
+            break;
+          case '루브르박물관':
+            lat = 48.86061106689278;
+            long = 2.337572032471655;
+            initMap();
+            break;
+          case '예술의다리':
+            lat = 48.85855410329842;
+            long = 2.337594242092726;
+            initMap();
+            break;
+          case '생제르맹데프레수도원':
+            lat = 48.853937779868694;
+            long = 2.333717095113634;
+            initMap();
+            break;
+          case '생쉴피스성당':
+            lat = 48.8510307781908;
+            long = 2.334970492786075;
+            initMap();
+            break;
+          case '뤽상부르공원':
+            lat = 48.84683591339661;
+            long = 2.3366240824567153;
+            initMap();
+            break;
+          case '생미셀광장':
+            lat = 48.8534953827587;
+            long = 2.3437994572914986;
+            initMap();
+            break;
+          case '샤이요궁':
+            lat = 48.8623173925887;
+            long = 2.288142613159744;
+            initMap();
+            break;
+          case '에펠탑':
+            lat = 48.85833623408294;
+            long = 2.294515427926931;
+            initMap();
+            break;
+          case '앵발리드':
+            lat = 48.85681622668787;
+            long = 2.3127634829525676;
+            initMap();
+            break;
+          case '알렉상드리3세다리':
+            lat = 48.863885327926354;
+            long = 2.3136051379075675;
+            initMap();
+            break;
+          case '오페라가르니에':
+            lat = 48.8719273021604;
+            long = 2.331579940067229;
+            initMap();
+            break;
+          case '페흐라세즈묘지':
+            lat = 48.86141547712412;
+            long = 2.3934295816583595;
+            initMap();
+            break;
+          case '사크레쾨르성당':
+            lat = 48.886375658719984;
+            long = 2.3430624416575956;
+            initMap();
+            break;
+        }
+      }
+
+      let map;
+      let service;
+      let markers = [];
+      let currentInfoWindow = null;
+
+      function initMap() {
+        const sydney = new google.maps.LatLng(lat, long);
+        infowindow = new google.maps.InfoWindow();
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: sydney,
+          zoom: 15,
+          styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }], // Hide all POIs
+        });
+
+        service = new google.maps.places.PlacesService(map);
+        getNearbyCafes(lat, long);
+      }
+
+      function getNearbyCafes(lat, lng) {
+        const request = {
+          location: new google.maps.LatLng(lat, lng),
+          radius: '500',
+          type: ['cafe'],
+        };
+
+        service.nearbySearch(request, callback);
+      }
+
+      function callback(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+          results.sort(
+            (a, b) => (b.user_ratings_total || 0) - (a.user_ratings_total || 0)
+          ); // Add this line
+          let resultsDiv = document.getElementById('results');
+          resultsDiv.innerHTML = ''; // clear previous results
+
+          // Remove all previous markers.
+          for (let i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+          }
+          markers = [];
+
+          for (let i = 0; i < Math.min(10, results.length); i++) {
+            let place = results[i];
+            console.log(place);
+
+            let box = document.createElement('div');
+            box.className = 'result-box';
+
+            let info = document.createElement('div');
+            info.className = 'place-info';
+            box.appendChild(info);
+
+            let name = document.createElement('div');
+            name.className = 'place-name';
+            name.textContent = (i + 1).toString() + '. ' + place.name;
+            info.appendChild(name);
+
+            if (place.rating) {
+              let rating = document.createElement('div');
+              rating.className = 'place-rating';
+              rating.innerHTML =
+                '별점: ' +
+                place.rating +
+                '<br/>참여 인원: ' +
+                place.user_ratings_total;
+              info.appendChild(rating);
+            }
+
+            let photo = document.createElement('img');
+            photo.className = 'place-photo';
+            if (place.photos) {
+              photo.src = place.photos[0].getUrl({
+                maxWidth: 100,
+                maxHeight: 100,
+              });
+            }
+            box.appendChild(photo);
+
+            resultsDiv.appendChild(box);
+
+            let marker = new google.maps.Marker({
+              map: map,
+              position: place.geometry.location,
+              label: (i + 1).toString(), // Adding the number to the marker
+            });
+
+            markers.push(marker);
+
+            google.maps.event.addListener(marker, 'click', function () {
+              if (currentInfoWindow) {
+                currentInfoWindow.close();
+              }
+
+              let infowindow = new google.maps.InfoWindow();
+              currentInfoWindow = infowindow;
+
+              infowindow.setContent(
+                place.name +
+                  '<br>' +
+                  place.formatted_address +
+                  '<br>Rating: ' +
+                  place.rating
+              );
+              infowindow.open(map, this);
+            });
+          }
+        }
+      }
+    </script>
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqtcJN0trm8SIXglpXrgzvAC3-E7LtT8E&callback=initMap&libraries=places"
+      type="text/javascript"
+    ></script>
+  </body>
+</html>

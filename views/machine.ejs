@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/clock.css" />
+    <link rel="stylesheet" href="css/machine.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://webfontworld.github.io/Cafe24SsurroundAir/Cafe24SsurroundAir.css"
+      rel="stylesheet"
+    />
+    <title>집 - MyHome</title>
+  </head>
+  <body>
+    <div id="upLine">
+      <i class="fa-brands fa-apple fa-lg" style="margin-left: 10px"></i>
+      <span class="upLineText" id="upLineName">동물상 찾기</span>
+      <span class="upLineText">파일</span>
+      <span class="upLineText">수정</span>
+      <span class="upLineText">보기</span>
+      <span class="upLineText">방문 기록</span>
+      <span class="upLineText">북마크</span>
+      <i class="fa-solid fa-battery-three-quarters fa-xl"></i>
+      <i class="fa-solid fa-volume-xmark"></i>
+      <i class="fa-solid fa-wifi"></i>
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <i class="fa-solid fa-sliders"></i>
+      <span id="date" class="upLineDate upLineText"></span>
+      <span id="time" class="upLineTime upLineText"></span>
+      <div id="weather">
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div id="windows">
+      <!--윗 검은 줄-->
+      <div id="status-bar">
+        <a href="/">
+          <div class="status_circle homeRedCircle" id="red_circle"></div>
+        </a>
+        <div class="status_circle" id="yellow_circle"></div>
+        <div class="status_circle" id="green_circle"></div>
+      </div>
+      <div id="mainPage">
+        <div class="centered-content">
+          <h2>Tensorflow.js를 활용한 동물상 테스트!!</h2>
+          <p class="lead">
+            자신의 사진을 업로드해보고 동물상을 테스트 해보자!!
+          </p>
+        </div>
+
+        <!-- Upload  -->
+        <form id="file-upload-form" class="uploader" action="index.js">
+          <input
+            id="file-upload"
+            type="file"
+            name="fileUpload"
+            accept="image/*"
+          />
+
+          <label for="file-upload" id="file-drag">
+            <img id="file-image" src="#" alt="Preview" class="hidden" />
+            <div id="start">
+              <i class="fa fa-download" aria-hidden="true"></i>
+              <div>클릭을 통해 사진을 등록해보자</div>
+              <div id="notimage" class="hidden">Please select an image</div>
+              <span id="file-upload-btn" class="btn btn-primary"
+                >Select a file</span
+              >
+            </div>
+
+            <div id="response" class="hidden">
+              <div id="messages">
+                <p class="result-message"></p>
+                <p class="status-message"></p>
+              </div>
+            </div>
+            <div id="label-container"></div>
+          </label>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/share.js"></script>
+    <script src="js/background.js"></script>
+    <script src="js/clock.js"></script>
+    <script src="js/weather.js"></script>
+    <script src="js/machine.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <script type="text/javascript">
+      // More API functions here:
+      // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+      // the link to your model provided by Teachable Machine export panel
+      window.addEventListener('load', () => {
+        init();
+        document
+          .getElementById('file-upload')
+          .addEventListener('change', handleFileUpload);
+      });
+
+      let model, labelContainer, maxPredictions;
+
+      async function init() {
+        const TEACHABLE_MACHINE_URL =
+          'https://teachablemachine.withgoogle.com/models/qt7tSSSMA/';
+        const modelURL = TEACHABLE_MACHINE_URL + 'model.json';
+        const metadataURL = TEACHABLE_MACHINE_URL + 'metadata.json';
+
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+
+        labelContainer = document.getElementById('label-container');
+
+        for (let i = 0; i < maxPredictions; i++) {
+          labelContainer.appendChild(document.createElement('div'));
+        }
+      }
+
+      async function predict() {
+        let image = document.getElementById('file-image');
+        console.log(image);
+        const prediction = await model.predict(image, false);
+        prediction.sort((a, b) => b.probability - a.probability);
+        console.log(prediction[0].className);
+        let resultMessage;
+        let statusMessage;
+        switch (prediction[0].className) {
+          case 'dog':
+            resultMessage = '강아지상';
+            statusMessage =
+              '상냥한 눈매가 특징인 강아지 얼굴이시군요.<br>친근한 분위기가 느껴집니다.<br><br>밝고 이야기 하는 걸 좋아해서 그룹의 중심에 있는 성격';
+            break;
+          case 'cat':
+            resultMessage = '고양이상';
+            statusMessage =
+              '당신은 살짝 올라간 눈이 특징적인 고양이 상이시군요.<br>살짝 새침한 느낌이 느껴집니다.<br><br> 고양이 상은 순발력이 좋고, 배려도 잘하는 성격이에요';
+            break;
+          case 'rabbit':
+            resultMessage = '토끼상';
+            statusMessage =
+              '당신은 똘망똘망한 눈이 특징적인 토끼상이시군요.<br>사랑스러운 분위기가 느껴집니다.<br><br>토끼상은 감수성이 풍부하고 쉽게 상처 입는 사람이라고 합니다.';
+            break;
+          case 'dinosaur':
+            resultMessage = '공룡상';
+            statusMessage =
+              '당신은 남자다운 턱이 특징적인 공룡상이시군요.<br>남자다운 강인함이 느껴집니다.<br><br>공룡상은 사리분별이 뛰어나고 자신을 높이 평가하는 사람이라고 합니다.';
+            break;
+          case 'bear':
+            resultMessage = '곰상';
+            statusMessage =
+              '당신은 동글동글한 얼굴이 특징적인 곰상이시군요.<br>곰처럼 든든함이 느껴집니다.<br><br>곰상은 누군가 자신에게 기대는 것을 좋아하고 사람을 포용할 줄 아는 사람이라고 합니다.';
+            break;
+          default:
+            resultMessage = '알수 없음';
+        }
+        $('.result-message').html(resultMessage);
+        $('.status-message').html(statusMessage);
+        for (let i = 0; i < maxPredictions; i++) {
+          const classPrediction =
+            prediction[i].className +
+            ': ' +
+            prediction[i].probability.toFixed(2) * 100 +
+            '%';
+          labelContainer.childNodes[i].innerHTML = classPrediction;
+        }
+      }
+
+      function handleFileUpload() {
+        const fileInput = document.getElementById('file-upload');
+        const fileImage = document.getElementById('file-image');
+        if (fileInput.files && fileInput.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            fileImage.src = e.target.result;
+            // Ensure the image is loaded before running predict
+            fileImage.onload = function () {
+              predict();
+            };
+          };
+          reader.readAsDataURL(fileInput.files[0]);
+        }
+      }
+    </script>
+  </body>
+</html>

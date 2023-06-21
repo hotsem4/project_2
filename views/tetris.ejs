@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/tetris.css" />
+
+    <link
+      href="https://webfontworld.github.io/Cafe24SsurroundAir/Cafe24SsurroundAir.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>테트리스 게임!!</title>
+  </head>
+  <body>
+    <div id="upLine">
+      <i class="fa-brands fa-apple fa-lg" style="margin-left: 10px"></i>
+      <span class="upLineText" id="upLineName"><b>Tetris</b></span>
+      <span class="upLineText">파일</span>
+      <span class="upLineText">수정</span>
+      <span class="upLineText">보기</span>
+      <span class="upLineText">방문 기록</span>
+      <span class="upLineText">북마크</span>
+      <i class="fa-solid fa-battery-three-quarters fa-xl"></i>
+      <i class="fa-solid fa-volume-xmark"></i>
+      <i class="fa-solid fa-wifi"></i>
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <i class="fa-solid fa-sliders"></i>
+      <span id="date" class="upLineDate upLineText"></span>
+      <span id="time" class="upLineTime upLineText"></span>
+      <div id="weather">
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div id="windows">
+      <div id="status-bar">
+        <a href="home">
+          <div class="status_circle" id="red_circle"></div>
+        </a>
+
+        <div class="status_circle" id="yellow_circle"></div>
+        <div class="status_circle" id="green_circle"></div>
+      </div>
+
+      <div id="tetrisBox">
+        <!--cal-->
+        <div class="wrapper">
+          <div class="game-text">
+            Game Over!!
+            <button>restart!</button>
+          </div>
+          <div class="score">0</div>
+          <div class="playground">
+            <ul></ul>
+          </div>
+        </div>
+      </div>
+
+      <script src="js/tetris.js" type="module"></script>
+      <script src="js/share.js"></script>
+      <script src="js/background.js"></script>
+      <script src="js/clock.js"></script>
+      <script src="js/weather.js"></script>
+    </div>
+  </body>
+</html>

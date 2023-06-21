@@ -1,0 +1,205 @@
+#helloMessage {
+  display: none;
+  font-size: 60px;
+  font-weight: 700;
+  color: #000;
+}
+
+.wrapper {
+  width: 100%;
+  perspective: 800;
+}
+
+.cube {
+  position: relative;
+  top: -90px;
+  margin: 0 auto;
+  height: 100px;
+  width: 100px;
+  animation: spin 5s infinite linear;
+  transform-style: preserve-3d;
+}
+
+@keyframes spin {
+  from {
+    transform: rotateY(0) rotateX(0);
+  }
+  to {
+    transform: rotateY(-360deg) rotateX(360deg);
+  }
+}
+
+.cube > div {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  border: 1px solid #333;
+  opacity: 0.8;
+}
+
+.cube > div:hover {
+  opacity: 1;
+  transition: opacity 0.3s linear;
+}
+
+.one {
+  transform: rotateX(90deg) translateZ(50px);
+  background-color: #e3493b;
+}
+
+.two {
+  transform: translateZ(50px);
+  background-color: #23b5af;
+}
+
+.three {
+  transform: rotateY(90deg) translateZ(50px);
+  background-color: #e8487f;
+}
+
+.four {
+  transform: rotateY(180deg) translateZ(50px);
+  background-color: #28b78d;
+}
+
+.five {
+  transform: rotateY(-90deg) translateZ(50px);
+  background-color: #ff5b00;
+}
+
+.six {
+  transform: rotateX(-90deg) translateZ(50px);
+  background-color: #feeb51;
+}
+/* #filter {
+  height: 85vh;
+  width: 90vw;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+} */
+
+#mainPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 300px;
+}
+#loginBackground {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#loginQuestion {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #000;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+#loginInputDiv > input::placeholder {
+  color: rgb(0, 0, 0);
+  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+}
+
+#arrow-button {
+  margin: 0;
+  margin-top: 5px;
+  padding: 0;
+  display: none;
+  background-color: transparent;
+}
+
+#loginInputDiv {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+#loginInputDiv > input {
+  outline: none;
+  border: none;
+  background: rgb(255, 255, 255, 0.5);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  height: 40px;
+  font-size: 16px;
+
+  margin-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 30px; /* adjust this value as necessary */
+
+  color: rgb(0, 0, 0);
+  box-shadow: 0 3px 25px -20px #000;
+}
+
+#arrow-button {
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #000;
+}
+
+#arrow-button:hover {
+  color: #000;
+}
+
+/* CSS */
+.button-3 {
+  margin-top: 20px;
+  appearance: none;
+  background-color: #4e3403;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, 'Segoe UI', Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.button-3:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.button-3:hover {
+  background-color: #685315;
+}
+
+.button-3:focus {
+  box-shadow: rgba(46, 164, 79, 0.4) 0 0 0 3px;
+  outline: none;
+}
+
+.button-3:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: default;
+}
+
+.button-3:active {
+  background-color: #6a4f0d;
+  box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
+}

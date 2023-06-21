@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/calStyle.css" />
+    <link
+      href="https://webfontworld.github.io/Cafe24SsurroundAir/Cafe24SsurroundAir.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>계산기!!</title>
+  </head>
+  <body>
+    <div id="upLine">
+      <i class="fa-brands fa-apple fa-lg" style="margin-left: 10px"></i>
+      <span class="upLineText" id="upLineName"><b>Calculator</b></span>
+      <span class="upLineText">파일</span>
+      <span class="upLineText">수정</span>
+      <span class="upLineText">보기</span>
+      <span class="upLineText">방문 기록</span>
+      <span class="upLineText">북마크</span>
+      <i class="fa-solid fa-battery-three-quarters fa-xl"></i>
+      <i class="fa-solid fa-volume-xmark"></i>
+      <i class="fa-solid fa-wifi"></i>
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <i class="fa-solid fa-sliders"></i>
+      <span id="date" class="upLineDate upLineText"></span>
+      <span id="time" class="upLineTime upLineText"></span>
+      <div id="weather">
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div id="windows">
+      <div id="status-bar">
+        <a href="home">
+          <div class="status_circle" id="red_circle"></div>
+        </a>
+
+        <div class="status_circle" id="yellow_circle"></div>
+        <div class="status_circle" id="green_circle"></div>
+      </div>
+
+      <div id="calBox">
+        <!--cal-->
+        <div class="calculator">
+          <div class="screen">
+            <input type="text" id="display" readonly />
+          </div>
+          <div class="buttons">
+            <button class="operator" onclick="clearDisplay()">C</button>
+            <button class="operator" onclick="append('(')">(</button>
+            <button class="operator" onclick="append(')')">)</button>
+            <button class="operator" onclick="deleteLast()">⌫</button>
+            <button class="number" onclick="append('7')">7</button>
+            <button class="number" onclick="append('8')">8</button>
+            <button class="number" onclick="append('9')">9</button>
+            <button class="operator" onclick="append('/')">÷</button>
+            <button class="number" onclick="append('4')">4</button>
+            <button class="number" onclick="append('5')">5</button>
+            <button class="number" onclick="append('6')">6</button>
+            <button class="operator" onclick="append('*')">x</button>
+            <button class="number" onclick="append('2')">2</button>
+            <button class="number" onclick="append('1')">1</button>
+            <button class="number" onclick="append('3')">3</button>
+            <button class="operator" onclick="append('-')">-</button>
+            <button class="number" onclick="append('.')">.</button>
+            <button class="number" onclick="append('0')">0</button>
+            <button class="operator" onclick="calculate()">=</button>
+            <button class="operator" onclick="append('+')">+</button>
+          </div>
+        </div>
+      </div>
+
+      <script src="js/cal_.js"></script>
+      <script src="js/share.js"></script>
+      <script src="js/background.js"></script>
+      <script src="js/clock.js"></script>
+      <script src="js/weather.js"></script>
+    </div>
+  </body>
+</html>
