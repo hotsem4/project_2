@@ -111,13 +111,10 @@
       });
       function success(position) {
         $('#location_result').html(
-          '내 위치 위도 = ' +
-            position.coords.latitude +
-            '<br/>내 위치 경도 = ' +
-            position.coords.longitude
+          '내 위치 위도 = ' + 35.945152 + '<br/>내 위치 경도 = ' + 126.682793
         );
-        lat = position.coords.latitude;
-        long = position.coords.longitude;
+        lat = 35.945152;
+        lon = 126.682793;
         initMap();
       }
       function error(err) {
