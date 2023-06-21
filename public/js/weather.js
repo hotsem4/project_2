@@ -13,7 +13,7 @@ function onGeoOk(position) {
       weather.innerText = `${data.weather[0].main} / ${data.main.temp}`;
     });
 }
-function onGeoError() {
+function onGeoError(error) {
   alert('위치를 찾을수 없습니다! 다시 확인해주세요.');
   console.log('Error code: ' + error.code);
   console.log('Error message: ' + error.message);
